@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Person {
-    private int location;
+    private final List<String> messagesHeard = new ArrayList<String>();
+    private final Network network;
 
-    public void setLocation(int location) {
-        this.location = location;
-    }
-
-    public void shout(String message) {
-
+    public Person(Network network) {
+        this.network = network;
+        network.subscribe(this);
     }
 
     public List<String> getMessagesHeard() {
-        List<String> result = new ArrayList<String>();
-        result.add("free bagels at Sean's");
-        return result;
+        return messagesHeard;
+    }
+
+    public void moveTo(int location) {
+    }
+
+    public void shout(String message) {
+        network.broadcast(message);
+    }
+
+    public void hear(String message) {
+        messagesHeard.add(message);
     }
 }

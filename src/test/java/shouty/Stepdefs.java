@@ -1,6 +1,5 @@
 package shouty;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -14,12 +13,12 @@ public class Stepdefs {
     private Person lucy;
     private String messageFromSean;
 
-    @Given("^Lucy is located (\\d+)m from Sean$")
+    @Given("^Lucy is (\\d+)m from Sean$")
     public void lucy_is_located_m_from_Sean(int distance) throws Throwable {
-        sean = new Person();
-        lucy = new Person();
-        sean.setLocation(0);
-        lucy.setLocation(distance);
+        Network network = new Network();
+        sean = new Person(network);
+        lucy = new Person(network);
+        lucy.moveTo(distance);
     }
 
     @When("^Sean shouts \"(.*?)\"$")
