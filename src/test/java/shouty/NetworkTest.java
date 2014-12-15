@@ -43,4 +43,19 @@ public class NetworkTest {
 
         verify(lionel, never()).hear(message);
     }
+
+    @Test
+    public void does_not_broadcast_messages_longer_than_180_chars_even_within_range() {
+        int seanLocation = 0;
+        Person lucy = mock(Person.class);
+        when(lucy.getLocation()).thenReturn(100);
+        network.subscribe(lucy);
+        String longMessage = "";
+        for (int i = 0; i < 181; i++) {
+            longMessage += "x";
+        }
+        network.broadcast(longMessage, seanLocation);
+
+        verify(lucy, never()).hear(longMessage);
+    }
 }

@@ -1,10 +1,14 @@
 package shouty;
 
+import cucumber.api.DataTable;
+import cucumber.api.PendingException;
+import cucumber.api.Transpose;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +35,26 @@ public class Stepdefs {
         network = new Network(range);
     }
 
-    @Given("^a person named (\\w+) at location (\\d+)$")
-    public void a_person_named(String name, int location) throws Throwable {
-        people.put(name, new Person(network, location));
+    public static class Whereabouts {
+        public String name;
+        public int location;
+    }
+
+    @Given("^the following people:$")
+    public void the_following_people(@Transpose List<Whereabouts> whereabouts) throws Throwable {
+        for (Whereabouts whereabout : whereabouts) {
+            people.put(whereabout.name, new Person(network, whereabout.location));
+        }
     }
 
     @When("^Sean shouts \"(.*?)\"$")
     public void sean_shouts(String message) throws Throwable {
+        people.get("Sean").shout(message);
+        messageFromSean = message;
+    }
+
+    @When("^Sean shouts:$")
+    public void sean_shouts_longer_message(String message) throws Throwable {
         people.get("Sean").shout(message);
         messageFromSean = message;
     }
@@ -47,9 +64,26 @@ public class Stepdefs {
         assertEquals(asList(messageFromSean), people.get("Lucy").getMessagesHeard());
     }
 
+    @Then("^Lucy hears the following messages:$")
+    public void lucy_hears_the_following_messages(DataTable expectedMessages) throws Throwable {
+        List<List<String>> actualMessages = new ArrayList<List<String>>();
+        List<String> heard = people.get("Lucy").getMessagesHeard();
+        for (String message : heard) {
+            actualMessages.add(asList(message));
+        }
+        expectedMessages.diff(actualMessages);
+    }
+
     @Then("^Larry does not hear Sean's message$")
     public void larry_does_not_hear_Sean_s_message() throws Throwable {
         List<String> heardByLarry = people.get("Larry").getMessagesHeard();
         assertThat(heardByLarry, not(hasItem(messageFromSean)));
+    }
+
+    @Then("^nobody hears Sean's message$")
+    public void nobody_hears_Sean_s_message() throws Throwable {
+        for (Person person : people.values()) {
+            assertThat(person.getMessagesHeard(), not(hasItem(messageFromSean)));
+        }
     }
 }

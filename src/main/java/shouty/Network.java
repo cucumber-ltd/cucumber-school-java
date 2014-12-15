@@ -17,7 +17,9 @@ public class Network {
 
     public void broadcast(String message, int shouterLocation) {
         for (Person listener : listeners) {
-            if (Math.abs(listener.getLocation() - shouterLocation) <= range) {
+            boolean withinRange = Math.abs(listener.getLocation() - shouterLocation) <= range;
+            boolean shortEnough = message.length() <= 180;
+            if (withinRange && shortEnough) {
                 listener.hear(message);
             }
         }
