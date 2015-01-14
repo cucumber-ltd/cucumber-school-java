@@ -1,3 +1,4 @@
+@SHOUTY-11
 Feature: Shout
 
   In order to send location-sensitive messages to people nearby
@@ -15,14 +16,17 @@ Feature: Shout
       | name     | Sean | Lucy | Larry |
       | location | 0    | 100  | 150   |
 
+  @smoke @slow
   Scenario: Listener is within range
     When Sean shouts "Free bagels!"
     Then Lucy hears Sean's message
 
+  @slow
   Scenario: Listener is out of range
     When Sean shouts "Free bagels!"
     Then Larry does not hear Sean's message
 
+  @smoke
   Scenario: Two shouts
     When Sean shouts "Free bagels!"
     And Sean shouts "Free toast!"

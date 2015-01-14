@@ -7,6 +7,9 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import cucumber.api.java.en_lol.DEN;
+import cucumber.api.java.en_lol.ICANHAZ;
+import cucumber.api.java.en_lol.WEN;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,5 +88,29 @@ public class Stepdefs {
         for (Person person : people.values()) {
             assertThat(person.getMessagesHeard(), not(hasItem(messageFromSean)));
         }
+    }
+
+    @ICANHAZ("^IN TEH BEGINNIN (\\d+) CUCUMBRZ$")
+    public void in_TEH_BEGINNIN_CUCUMBRZ(int arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @WEN("^I EAT (\\d+) CUCUMBRZ$")
+    public void i_EAT_CUCUMBRZ(int arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @DEN("^I HAS (\\d+) CUCUMBERZ IN MAH BELLY$")
+    public void i_HAS_CUCUMBERZ_IN_MAH_BELLY(int arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
+
+    @DEN("^IN TEH END (\\d+) CUCUMBRZ KTHXBAI$")
+    public void in_TEH_END_CUCUMBRZ_KTHXBAI(int arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
     }
 }
