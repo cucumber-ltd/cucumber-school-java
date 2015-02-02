@@ -14,39 +14,44 @@ public class NetworkTest {
 
     @Test
     public void broadcasts_a_message_to_a_listener_within_range() {
-        int seanLocation = 0;
+        Person sean = mock(Person.class);
+        when(sean.getLocation()).thenReturn(0);
         Person lucy = mock(Person.class);
         network.subscribe(lucy);
-        network.broadcast(message, seanLocation);
+        network.broadcast(message, sean);
 
         verify(lucy).hear(message);
     }
 
     @Test
     public void does_not_broadcast_a_message_to_a_litener_out_of_range() {
-        int seanLocation = 0;
+        Person sean = mock(Person.class);
+        when(sean.getLocation()).thenReturn(0);
         Person laura = mock(Person.class);
         when(laura.getLocation()).thenReturn(101);
         network.subscribe(laura);
-        network.broadcast(message, seanLocation);
+        network.broadcast(message, sean);
 
         verify(laura, never()).hear(message);
     }
 
     @Test
     public void does_not_broadcast_a_message_to_a_litener_out_of_range_negative_distance() {
-        int sallyLocation = 101;
+        Person sally = mock(Person.class);
+        when(sally.getLocation()).thenReturn(101);
         Person lionel = mock(Person.class);
         when(lionel.getLocation()).thenReturn(0);
         network.subscribe(lionel);
-        network.broadcast(message, sallyLocation);
+        network.broadcast(message, sally);
 
         verify(lionel, never()).hear(message);
     }
 
     @Test
     public void does_not_broadcast_messages_longer_than_180_chars_even_within_range() {
-        int seanLocation = 0;
+        Person sean = mock(Person.class);
+        when(sean.getLocation()).thenReturn(0);
+        when(sean.getCredits()).thenReturn(-1); // Hack to keep tests passing
         Person lucy = mock(Person.class);
         when(lucy.getLocation()).thenReturn(100);
         network.subscribe(lucy);
@@ -54,7 +59,7 @@ public class NetworkTest {
         for (int i = 0; i < 181; i++) {
             longMessage += "x";
         }
-        network.broadcast(longMessage, seanLocation);
+        network.broadcast(longMessage, sean);
 
         verify(lucy, never()).hear(longMessage);
     }

@@ -15,13 +15,24 @@ public class Network {
         listeners.add(person);
     }
 
-    public void broadcast(String message, int shouterLocation) {
+    public void broadcast(String message, Person shouter) {
+        int shouterLocation = shouter.getLocation();
+        boolean shortEnough = message.length() <= 180;
+        deductCredits(shortEnough, message, shouter);
         for (Person listener : listeners) {
             boolean withinRange = Math.abs(listener.getLocation() - shouterLocation) <= range;
-            boolean shortEnough = message.length() <= 180;
-            if (withinRange && shortEnough) {
+            if (withinRange && (shortEnough || shouter.getCredits() >= 0)) {
                 listener.hear(message);
             }
+        }
+    }
+
+    private void deductCredits(boolean shortEnough, String message, Person shouter) {
+        if (!shortEnough) {
+            shouter.setCredits(shouter.getCredits() - 2);
+        }
+        if (message.toLowerCase().contains("buy")) {
+            shouter.setCredits(shouter.getCredits() - 5);
         }
     }
 }
