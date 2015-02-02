@@ -2,8 +2,11 @@ package shouty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Network {
+    public static final Pattern BUY_PATTERN = Pattern.compile("buy", Pattern.CASE_INSENSITIVE);
     private final List<Person> listeners = new ArrayList<Person>();
     private final int range;
 
@@ -31,7 +34,8 @@ public class Network {
         if (!shortEnough) {
             shouter.setCredits(shouter.getCredits() - 2);
         }
-        if (message.toLowerCase().contains("buy")) {
+        Matcher matcher = BUY_PATTERN.matcher(message);
+        while(matcher.find()) {
             shouter.setCredits(shouter.getCredits() - 5);
         }
     }
