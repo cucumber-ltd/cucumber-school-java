@@ -1,6 +1,7 @@
 package shouty;
 
 import cucumber.api.DataTable;
+import cucumber.api.PendingException;
 import cucumber.api.Transpose;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -50,6 +51,11 @@ public class Stepdefs {
         for (Whereabouts whereabout : whereabouts) {
             people.put(whereabout.name, new Person(network, whereabout.location));
         }
+    }
+
+    @When("^Sean shouts a message containing the word \"(.*?)\"$")
+    public void sean_shouts_a_message_containing_the_word(String word) throws Throwable {
+        shout("a message containing the word " + word);
     }
 
     @When("^Sean shouts \"(.*?)\"$")
