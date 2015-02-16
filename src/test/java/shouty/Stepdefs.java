@@ -77,6 +77,15 @@ public class Stepdefs {
         shout(longMessage);
     }
 
+    @When("^Sean shouts (\\d+) over-long message$")
+    public void sean_shouts_over_long_message(int num) throws Throwable {
+        for(int j = 0; j < num; j++) {
+            String longMessage = "";
+            for(int i = 0; i < 181; i++) longMessage += "x";
+            shout(longMessage);
+        }
+    }
+
     @When("^Sean shouts \"(.*?)\"$")
     public void sean_shouts(String message) throws Throwable {
         shout(message);

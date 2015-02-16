@@ -12,12 +12,7 @@ Feature: Premium account
 
   Scenario: Test premium account features
     Given Sean has bought 30 credits
-    And Sean shouts a message
-    And Sean shouts a message
-    And Sean shouts a message
-    And Sean shouts a long message
-    And Sean shouts an over-long message
-    And Sean shouts an over-long message
+    When Sean shouts 2 over-long message
     When Sean shouts a message containing the word "buy"
     When Sean shouts a message containing the word "buy"
     When Sean shouts a message containing the word "buy"
