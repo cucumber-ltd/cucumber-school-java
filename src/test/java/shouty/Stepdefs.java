@@ -58,6 +58,25 @@ public class Stepdefs {
         shout("a message containing the word " + word);
     }
 
+    @When("^Sean shouts a message$")
+    public void sean_shouts_a_message() throws Throwable {
+        shout("here is a message");
+    }
+
+    @When("^Sean shouts a long message$")
+    public void sean_shouts_a_long_message() throws Throwable {
+        String longMessage = "";
+        for(int i = 0; i < 180; i++) longMessage += "x";
+        shout(longMessage);
+    }
+
+    @When("^Sean shouts an over-long message$")
+    public void sean_shouts_an_over_long_message() throws Throwable {
+        String longMessage = "";
+        for(int i = 0; i < 181; i++) longMessage += "x";
+        shout(longMessage);
+    }
+
     @When("^Sean shouts \"(.*?)\"$")
     public void sean_shouts(String message) throws Throwable {
         shout(message);
