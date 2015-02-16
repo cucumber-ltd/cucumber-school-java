@@ -58,6 +58,13 @@ public class Stepdefs {
         shout("a message containing the word " + word);
     }
 
+    @When("^Sean shouts (\\d+) messages containing the word \"(.*?)\"$")
+    public void sean_shouts_messages_containing_the_word(int num, String word) throws Throwable {
+        for(int j = 0; j < num; j++) {
+            shout("a message containing the word " + word);
+        }
+    }
+
     @When("^Sean shouts a message$")
     public void sean_shouts_a_message() throws Throwable {
         shout("here is a message");
