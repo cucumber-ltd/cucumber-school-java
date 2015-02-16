@@ -41,3 +41,9 @@ Feature: Premium account
     And Sean shouts "We have cakes by the dozen"
     Then Lucy hears all Sean's messages
     And Sean should have 11 credits
+
+  @todo
+  Scenario: BUG #2789
+    Given Sean has bought 30 credits
+    When Sean shouts "buy, buy buy!"
+    Then Sean should have 25 credits
