@@ -11,7 +11,7 @@
     <dependencies>
         <dependency>
             <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
+            <artifactId>cucumber-picocontainer</artifactId>
             <version>1.2.2</version>
             <scope>test</scope>
         </dependency>
@@ -20,6 +20,13 @@
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>1.2.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.picocontainer</groupId>
+            <artifactId>picocontainer</artifactId>
+            <version>2.15</version>
             <scope>test</scope>
         </dependency>
 
