@@ -9,7 +9,7 @@ public interface ShoutSupport {
 
     void setCredits(String personName, int credits);
 
-    void addPerson(String personName, int person);
+    void addPerson(String personName, int location);
 
     List<String> messagesHeardBy(String personName);
 

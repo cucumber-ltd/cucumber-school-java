@@ -1,11 +1,18 @@
 package shouty;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import shouty.domain.Shouty;
+
 import java.util.List;
 
 public class WebShoutSupport implements ShoutSupport {
+    private Shouty shouty;
+
     @Override
     public void seanShout(String message) {
-        throw new UnsupportedOperationException();
+        WebDriver browser = new FirefoxDriver();
+        browser.get("http://localhost:5001/");
     }
 
     @Override
@@ -19,8 +26,8 @@ public class WebShoutSupport implements ShoutSupport {
     }
 
     @Override
-    public void addPerson(String personName, int person) {
-        throw new UnsupportedOperationException();
+    public void addPerson(String personName, int location) {
+        shouty.addPerson(personName, location);
     }
 
     @Override
@@ -45,6 +52,6 @@ public class WebShoutSupport implements ShoutSupport {
 
     @Override
     public void setRange(int range) {
-        throw new UnsupportedOperationException();
+        shouty = new Shouty(range);
     }
 }
