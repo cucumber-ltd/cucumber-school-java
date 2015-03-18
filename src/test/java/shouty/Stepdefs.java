@@ -101,17 +101,12 @@ public class Stepdefs {
 
     @Then("^Lucy hears Sean's message$")
     public void lucy_hears_Sean_s_message() throws Throwable {
-        lucy_hears_all_Sean_s_messages();
+        shoutSupport.assertLucyHearsAllSeansMessages();
     }
 
     @Then("^Lucy hears all Sean's messages$")
     public void lucy_hears_all_Sean_s_messages() throws Throwable {
-        List<String> heardByLucy = shoutSupport.people.get("Lucy").getMessagesHeard();
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy.get("Sean");
-
-        // Hamcrest's hasItems matcher wants an Array, not a List.
-        String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        assertThat(heardByLucy, hasItems(messagesFromSeanArray));
+        shoutSupport.assertLucyHearsAllSeansMessages();
     }
 
     @Then("^Lucy hears the following messages:$")
