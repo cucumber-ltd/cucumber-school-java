@@ -2,15 +2,12 @@ package shouty;
 
 import cucumber.api.DataTable;
 import cucumber.api.Transpose;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -23,7 +20,7 @@ public class Stepdefs {
     private final ShoutSupport shoutSupport;
     private Network network;
 
-    public Stepdefs(ShoutSupport shoutSupport) {
+    public Stepdefs(DomainShoutSupport shoutSupport) {
         this.shoutSupport = shoutSupport;
     }
 
@@ -39,13 +36,13 @@ public class Stepdefs {
 
     @Given("^Sean has bought (\\d+) credits$")
     public void sean_has_bought_credits(int credits) throws Throwable {
-        shoutSupport.people.get("Sean").setCredits(credits);
+        shoutSupport.setCredits("Sean", credits);
     }
 
     @Given("^the following people:$")
     public void the_following_people(@Transpose List<Whereabouts> whereabouts) throws Throwable {
         for (Whereabouts whereabout : whereabouts) {
-            shoutSupport.people.put(whereabout.name, new Person(network, whereabout.location));
+            shoutSupport.addPerson(whereabout.name, new Person(network, whereabout.location));
         }
     }
 
@@ -112,7 +109,7 @@ public class Stepdefs {
     @Then("^Lucy hears the following messages:$")
     public void lucy_hears_the_following_messages(DataTable expectedMessages) throws Throwable {
         List<List<String>> actualMessages = new ArrayList<List<String>>();
-        List<String> heard = shoutSupport.people.get("Lucy").getMessagesHeard();
+        List<String> heard = shoutSupport.messagesHeardBy("Lucy");
         for (String message : heard) {
             actualMessages.add(asList(message));
         }
@@ -121,23 +118,23 @@ public class Stepdefs {
 
     @Then("^Larry does not hear Sean's message$")
     public void larry_does_not_hear_Sean_s_message() throws Throwable {
-        List<String> heardByLarry = shoutSupport.people.get("Larry").getMessagesHeard();
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy.get("Sean");
+        List<String> heardByLarry = shoutSupport.messagesHeardBy("Larry");
+        List<String> messagesFromSean = shoutSupport.messagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         assertThat(heardByLarry, not(hasItems(messagesFromSeanArray)));
     }
 
     @Then("^nobody hears Sean's message$")
     public void nobody_hears_Sean_s_message() throws Throwable {
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy.get("Sean");
+        List<String> messagesFromSean = shoutSupport.messagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        for (Person person : shoutSupport.people.values()) {
+        for (Person person : shoutSupport.getPeople()) {
             assertThat(person.getMessagesHeard(), not(hasItems(messagesFromSeanArray)));
         }
     }
 
     @Then("^Sean should have (\\d+) credits$")
     public void sean_should_have_credits(int credits) throws Throwable {
-        assertEquals(credits, shoutSupport.people.get("Sean").getCredits());
+        assertEquals(credits, shoutSupport.getCredits("Sean"));
     }
 }
