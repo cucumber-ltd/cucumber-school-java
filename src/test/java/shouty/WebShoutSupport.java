@@ -1,6 +1,8 @@
 package shouty;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import shouty.domain.Shouty;
 import shouty.web.BrowserSessions;
@@ -19,7 +21,10 @@ public class WebShoutSupport implements ShoutSupport {
     @Override
     public void seanShout(String message) {
         WebDriver browser = browserSessions.getBrowser("Sean");
-        browser.get("http://localhost:4567/");
+        browser.get("http://localhost:4567/?name=Sean");
+        WebElement messageField = browser.findElement(By.id("message"));
+        messageField.sendKeys(message);
+        messageField.submit();
     }
 
     @Override
