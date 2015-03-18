@@ -1,4 +1,4 @@
-package shouty;
+package shouty.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Person {
     private final int location;
     private int credits;
 
-    public Person(Network network, int location) {
+    Person(Network network, int location) {
         this.network = network;
         this.location = location;
         this.credits = 0;

@@ -1,17 +1,21 @@
 package shouty;
 
+import shouty.domain.Person;
+import shouty.domain.Shouty;
+
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 public class DomainShoutSupport implements ShoutSupport {
-    private final Map<String, Person> people = new HashMap<String, Person>();
     private final Map<String, List<String>> messagesShoutedBy = new HashMap<String, List<String>>();
+    private Shouty shouty;
 
     @Override
     public void seanShout(String message) {
-        people.get("Sean").shout(message);
+        shouty.shout("Sean", message);
         List<String> messages = messagesShoutedBy.get("Sean");
         if (messages == null) {
             messages = new ArrayList<String>();
@@ -22,7 +26,7 @@ public class DomainShoutSupport implements ShoutSupport {
 
     @Override
     public void assertLucyHearsAllSeansMessages() {
-        List<String> heardByLucy = people.get("Lucy").getMessagesHeard();
+        List<String> heardByLucy = shouty.getMessagesHeardBy("Lucy");
         List<String> messagesFromSean = messagesShoutedBy.get("Sean");
 
         // Hamcrest's hasItems matcher wants an Array, not a List.
@@ -32,17 +36,17 @@ public class DomainShoutSupport implements ShoutSupport {
 
     @Override
     public void setCredits(String personName, int credits) {
-        people.get(personName).setCredits(credits);
+        shouty.setCredits(personName, credits);
     }
 
     @Override
-    public void addPerson(String personName, Person person) {
-        people.put(personName, person);
+    public void addPerson(String personName, int location) {
+        shouty.addPerson(personName, location);
     }
 
     @Override
     public List<String> messagesHeardBy(String personName) {
-        return people.get(personName).getMessagesHeard();
+        return shouty.getMessagesHeardBy(personName);
     }
 
     @Override
@@ -51,12 +55,21 @@ public class DomainShoutSupport implements ShoutSupport {
     }
 
     @Override
-    public Collection<Person> getPeople() {
-        return people.values();
+    public int getCredits(String personName) {
+        return shouty.getCredits(personName);
     }
 
     @Override
-    public int getCredits(String personName) {
-        return people.get(personName).getCredits();
+    public void assertNobodyHearsMessageFrom(String personName) {
+        List<String> messagesFromSean = messagesShoutedBy("Sean");
+        String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
+        for (Person person : shouty.getPeople()) {
+            assertThat(person.getMessagesHeard(), not(hasItems(messagesFromSeanArray)));
+        }
+    }
+
+    @Override
+    public void setRange(int range) {
+        shouty = new Shouty(range);
     }
 }

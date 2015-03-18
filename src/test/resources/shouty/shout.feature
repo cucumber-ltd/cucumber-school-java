@@ -20,6 +20,10 @@ Feature: Shout
     When Sean shouts "Free bagels!"
     Then Lucy hears Sean's message
 
+  Scenario: Listener is within range (via domain)
+    When Sean shouts "Free bagels!"
+    Then Lucy hears Sean's message
+
   Scenario: Listener is out of range
     When Sean shouts "Free bagels!"
     Then Larry does not hear Sean's message

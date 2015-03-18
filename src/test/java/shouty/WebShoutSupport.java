@@ -1,6 +1,5 @@
 package shouty;
 
-import java.util.Collection;
 import java.util.List;
 
 public class WebShoutSupport implements ShoutSupport {
@@ -20,7 +19,7 @@ public class WebShoutSupport implements ShoutSupport {
     }
 
     @Override
-    public void addPerson(String personName, Person person) {
+    public void addPerson(String personName, int person) {
         throw new UnsupportedOperationException();
     }
 
@@ -35,12 +34,17 @@ public class WebShoutSupport implements ShoutSupport {
     }
 
     @Override
-    public Collection<Person> getPeople() {
+    public int getCredits(String personName) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public int getCredits(String personName) {
+    public void assertNobodyHearsMessageFrom(String personName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setRange(int range) {
         throw new UnsupportedOperationException();
     }
 }

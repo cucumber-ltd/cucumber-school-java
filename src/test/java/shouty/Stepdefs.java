@@ -22,8 +22,6 @@ public class Stepdefs {
     private final ShoutSupport webShoutSupport;
     private ShoutSupport shoutSupport;
 
-    private Network network;
-
     public Stepdefs(DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
         this.domainShoutSupport = domainShoutSupport;
         this.webShoutSupport = webShoutSupport;
@@ -39,7 +37,7 @@ public class Stepdefs {
 
     @Given("^the range is (\\d+)$")
     public void the_range_is(int range) throws Throwable {
-        network = new Network(range);
+        shoutSupport.setRange(range);
     }
 
     public static class Whereabouts {
@@ -55,7 +53,7 @@ public class Stepdefs {
     @Given("^the following people:$")
     public void the_following_people(@Transpose List<Whereabouts> whereabouts) throws Throwable {
         for (Whereabouts whereabout : whereabouts) {
-            shoutSupport.addPerson(whereabout.name, new Person(network, whereabout.location));
+            shoutSupport.addPerson(whereabout.name, whereabout.location);
         }
     }
 
@@ -66,7 +64,7 @@ public class Stepdefs {
 
     @When("^Sean shouts (\\d+) messages containing the word \"(.*?)\"$")
     public void sean_shouts_messages_containing_the_word(int num, String word) throws Throwable {
-        for(int j = 0; j < num; j++) {
+        for (int j = 0; j < num; j++) {
             shoutSupport.seanShout("a message containing the word " + word);
         }
     }
@@ -79,22 +77,22 @@ public class Stepdefs {
     @When("^Sean shouts a long message$")
     public void sean_shouts_a_long_message() throws Throwable {
         String longMessage = "";
-        for(int i = 0; i < 180; i++) longMessage += "x";
+        for (int i = 0; i < 180; i++) longMessage += "x";
         shoutSupport.seanShout(longMessage);
     }
 
     @When("^Sean shouts an over-long message$")
     public void sean_shouts_an_over_long_message() throws Throwable {
         String longMessage = "";
-        for(int i = 0; i < 181; i++) longMessage += "x";
+        for (int i = 0; i < 181; i++) longMessage += "x";
         shoutSupport.seanShout(longMessage);
     }
 
     @When("^Sean shouts (\\d+) over-long message$")
     public void sean_shouts_over_long_message(int num) throws Throwable {
-        for(int j = 0; j < num; j++) {
+        for (int j = 0; j < num; j++) {
             String longMessage = "";
-            for(int i = 0; i < 181; i++) longMessage += "x";
+            for (int i = 0; i < 181; i++) longMessage += "x";
             shoutSupport.seanShout(longMessage);
         }
     }
@@ -139,11 +137,7 @@ public class Stepdefs {
 
     @Then("^nobody hears Sean's message$")
     public void nobody_hears_Sean_s_message() throws Throwable {
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy("Sean");
-        String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        for (Person person : shoutSupport.getPeople()) {
-            assertThat(person.getMessagesHeard(), not(hasItems(messagesFromSeanArray)));
-        }
+        shoutSupport.assertNobodyHearsMessageFrom("Sean");
     }
 
     @Then("^Sean should have (\\d+) credits$")

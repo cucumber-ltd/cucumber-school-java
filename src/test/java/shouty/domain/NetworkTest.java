@@ -1,4 +1,4 @@
-package shouty;
+package shouty.domain;
 
 import org.junit.Test;
 
