@@ -2,6 +2,7 @@ package shouty;
 
 import cucumber.api.DataTable;
 import cucumber.api.Transpose;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -17,11 +18,23 @@ import static org.junit.Assert.assertThat;
 
 public class Stepdefs {
 
-    private final ShoutSupport shoutSupport;
+    private final ShoutSupport domainShoutSupport;
+    private final ShoutSupport webShoutSupport;
+    private ShoutSupport shoutSupport;
+
     private Network network;
 
-    public Stepdefs(DomainShoutSupport shoutSupport) {
-        this.shoutSupport = shoutSupport;
+    public Stepdefs(DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
+        this.domainShoutSupport = domainShoutSupport;
+        this.webShoutSupport = webShoutSupport;
+
+        // use domain by default
+        this.shoutSupport = domainShoutSupport;
+    }
+
+    @Before("@web")
+    public void switchToWebSupport() {
+        this.shoutSupport = webShoutSupport;
     }
 
     @Given("^the range is (\\d+)$")
