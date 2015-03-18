@@ -3,16 +3,23 @@ package shouty;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import shouty.domain.Shouty;
+import shouty.web.BrowserSessions;
+import shouty.web.ShoutyServer;
 
 import java.util.List;
 
 public class WebShoutSupport implements ShoutSupport {
     private Shouty shouty;
+    private final BrowserSessions browserSessions;
+
+    public WebShoutSupport(BrowserSessions browserSessions) {
+        this.browserSessions = browserSessions;
+    }
 
     @Override
     public void seanShout(String message) {
-        WebDriver browser = new FirefoxDriver();
-        browser.get("http://localhost:5001/");
+        WebDriver browser = browserSessions.getBrowser("Sean");
+        browser.get("http://localhost:4567/");
     }
 
     @Override
