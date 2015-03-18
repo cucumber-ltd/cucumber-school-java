@@ -56,7 +56,7 @@ public class Stepdefs {
     @Given("^the following people:$")
     public void the_following_people(@Transpose List<Whereabouts> whereabouts) throws Throwable {
         for (Whereabouts whereabout : whereabouts) {
-            shouty.addPerson(whereabout.name, whereabout.location);
+            shouty.setPersonLocation(whereabout.name, whereabout.location);
         }
     }
 

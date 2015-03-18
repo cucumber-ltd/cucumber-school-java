@@ -17,23 +17,23 @@ public class Shouty {
     }
 
     public void shout(String personName, String message) {
-        people.get(personName).shout(message);
+        findOrCreatePerson(personName).shout(message);
     }
 
     public List<String> getMessagesHeardBy(String personName) {
-        return people.get(personName).getMessagesHeard();
+        return findOrCreatePerson(personName).getMessagesHeard();
     }
 
     public void setCredits(String personName, int credits) {
-        people.get(personName).setCredits(credits);
+        findOrCreatePerson(personName).setCredits(credits);
     }
 
-    public void addPerson(String personName, int location) {
-        people.put(personName, new Person(network, location));
+    public void setPersonLocation(String personName, int location) {
+        findOrCreatePerson(personName).setLocation(location);
     }
 
     public int getCredits(String personName) {
-        return people.get(personName).getCredits();
+        return findOrCreatePerson(personName).getCredits();
     }
 
     public Collection<Person> getPeople() {
@@ -41,6 +41,15 @@ public class Shouty {
     }
 
     public List<String> getMessagesShoutedBy(String personName) {
-        return people.get(personName).getMessagesShouted();
+        return findOrCreatePerson(personName).getMessagesShouted();
+    }
+
+    private Person findOrCreatePerson(String personName) {
+        Person person = people.get(personName);
+        if(person == null) {
+            person = new Person(network, 0);
+            people.put(personName, person);
+        }
+        return person;
     }
 }

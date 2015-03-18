@@ -7,7 +7,7 @@ public class Person {
     private final List<String> messagesShouted = new ArrayList<>();
     private final List<String> messagesHeard = new ArrayList<>();
     private final Network network;
-    private final int location;
+    private int location;
     private int credits;
 
     Person(Network network, int location) {
@@ -44,5 +44,9 @@ public class Person {
 
     public List<String> getMessagesShouted() {
         return messagesShouted;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
     }
 }
