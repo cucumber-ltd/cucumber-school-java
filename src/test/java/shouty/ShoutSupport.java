@@ -7,17 +7,9 @@ public interface ShoutSupport {
 
     void assertLucyHearsAllSeansMessages();
 
-    void setCredits(String personName, int credits);
+    List<String> getMessagesHeardBy(String personName);
 
-    void addPerson(String personName, int location);
-
-    List<String> messagesHeardBy(String personName);
-
-    List<String> messagesShoutedBy(String personName);
-
-    int getCredits(String personName);
+    List<String> getMessagesShoutedBy(String personName);
 
     void assertNobodyHearsMessageFrom(String personName);
-
-    void setRange(int range);
 }

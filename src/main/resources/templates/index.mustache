@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form action="/messages" method=post><input type=text id=message name=message></form>
+<ul>
+    {{#messagesHeard}}
+        <li>{{.}}</li>
+    {{/messagesHeard}}
+</ul>
+</body>
+</html>

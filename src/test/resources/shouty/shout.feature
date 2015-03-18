@@ -28,6 +28,7 @@ Feature: Shout
     When Sean shouts "Free bagels!"
     Then Larry does not hear Sean's message
 
+  @web
   Scenario: Two shouts
     When Sean shouts "Free bagels!"
     And Sean shouts "Free toast!"

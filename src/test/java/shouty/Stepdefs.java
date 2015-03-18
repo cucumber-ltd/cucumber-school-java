@@ -6,6 +6,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import shouty.domain.Shouty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +22,10 @@ public class Stepdefs {
     private final ShoutSupport domainShoutSupport;
     private final ShoutSupport webShoutSupport;
     private ShoutSupport shoutSupport;
+    private final Shouty shouty;
 
-    public Stepdefs(DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
+    public Stepdefs(Shouty shouty, DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
+        this.shouty = shouty;
         this.domainShoutSupport = domainShoutSupport;
         this.webShoutSupport = webShoutSupport;
 
@@ -37,7 +40,7 @@ public class Stepdefs {
 
     @Given("^the range is (\\d+)$")
     public void the_range_is(int range) throws Throwable {
-        shoutSupport.setRange(range);
+        shouty.setRange(range);
     }
 
     public static class Whereabouts {
@@ -47,13 +50,13 @@ public class Stepdefs {
 
     @Given("^Sean has bought (\\d+) credits$")
     public void sean_has_bought_credits(int credits) throws Throwable {
-        shoutSupport.setCredits("Sean", credits);
+        shouty.setCredits("Sean", credits);
     }
 
     @Given("^the following people:$")
     public void the_following_people(@Transpose List<Whereabouts> whereabouts) throws Throwable {
         for (Whereabouts whereabout : whereabouts) {
-            shoutSupport.addPerson(whereabout.name, whereabout.location);
+            shouty.addPerson(whereabout.name, whereabout.location);
         }
     }
 
@@ -119,8 +122,8 @@ public class Stepdefs {
 
     @Then("^Lucy hears the following messages:$")
     public void lucy_hears_the_following_messages(DataTable expectedMessages) throws Throwable {
-        List<List<String>> actualMessages = new ArrayList<List<String>>();
-        List<String> heard = shoutSupport.messagesHeardBy("Lucy");
+        List<List<String>> actualMessages = new ArrayList<>();
+        List<String> heard = shoutSupport.getMessagesHeardBy("Lucy");
         for (String message : heard) {
             actualMessages.add(asList(message));
         }
@@ -129,8 +132,8 @@ public class Stepdefs {
 
     @Then("^Larry does not hear Sean's message$")
     public void larry_does_not_hear_Sean_s_message() throws Throwable {
-        List<String> heardByLarry = shoutSupport.messagesHeardBy("Larry");
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy("Sean");
+        List<String> heardByLarry = shoutSupport.getMessagesHeardBy("Larry");
+        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         assertThat(heardByLarry, not(hasItems(messagesFromSeanArray)));
     }
@@ -142,6 +145,6 @@ public class Stepdefs {
 
     @Then("^Sean should have (\\d+) credits$")
     public void sean_should_have_credits(int credits) throws Throwable {
-        assertEquals(credits, shoutSupport.getCredits("Sean"));
+        assertEquals(credits, shouty.getCredits("Sean"));
     }
 }

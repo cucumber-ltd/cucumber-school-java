@@ -10,9 +10,9 @@ import java.util.Map;
  */
 public class Shouty {
     private final Map<String, Person> people = new HashMap<>();
-    private final Network network;
+    private Network network;
 
-    public Shouty(int range) {
+    public void setRange(int range) {
         this.network = new Network(range);
     }
 
