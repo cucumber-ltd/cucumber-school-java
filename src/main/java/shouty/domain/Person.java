@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Person {
-    private final List<String> messagesHeard = new ArrayList<String>();
+    private final List<String> messagesShouted = new ArrayList<>();
+    private final List<String> messagesHeard = new ArrayList<>();
     private final Network network;
     private final int location;
     private int credits;
@@ -22,6 +23,7 @@ public class Person {
 
     public void shout(String message) {
         network.broadcast(message, this);
+        messagesShouted.add(message);
     }
 
     public void hear(String message) {
@@ -38,5 +40,9 @@ public class Person {
 
     public int getCredits() {
         return credits;
+    }
+
+    public List<String> getMessagesShouted() {
+        return messagesShouted;
     }
 }

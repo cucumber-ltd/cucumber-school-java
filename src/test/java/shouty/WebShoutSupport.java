@@ -3,12 +3,16 @@ package shouty;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import shouty.domain.Shouty;
 import shouty.web.BrowserSessions;
-import shouty.web.ShoutyServer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.hasItems;
+import static org.junit.Assert.assertThat;
 
 public class WebShoutSupport implements ShoutSupport {
     private Shouty shouty;
@@ -29,7 +33,14 @@ public class WebShoutSupport implements ShoutSupport {
 
     @Override
     public void assertLucyHearsAllSeansMessages() {
-        throw new UnsupportedOperationException();
+        WebDriver browser = browserSessions.getBrowser("Lucy");
+        List<WebElement> messageElements = browser.findElements(By.cssSelector("#messages li"));
+        List<String> heardByLucy = messageElements.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        List<String> messagesFromSean = shouty.getMessagesShoutedBy("Sean");
+        // Hamcrest's hasItems matcher wants an Array, not a List.
+        String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
+        assertThat(heardByLucy, hasItems(messagesFromSeanArray));
     }
 
     @Override

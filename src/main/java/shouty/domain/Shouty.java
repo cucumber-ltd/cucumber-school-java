@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Facade that hides most of the internal domain logic
+ */
 public class Shouty {
-    private final Map<String, Person> people = new HashMap<String, Person>();
+    private final Map<String, Person> people = new HashMap<>();
     private final Network network;
 
     public Shouty(int range) {
@@ -35,5 +38,9 @@ public class Shouty {
 
     public Collection<Person> getPeople() {
         return people.values();
+    }
+
+    public List<String> getMessagesShoutedBy(String personName) {
+        return people.get(personName).getMessagesShouted();
     }
 }

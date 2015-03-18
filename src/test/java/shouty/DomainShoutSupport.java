@@ -10,7 +10,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 public class DomainShoutSupport implements ShoutSupport {
-    private final Map<String, List<String>> messagesShoutedBy = new HashMap<String, List<String>>();
+    private final Map<String, List<String>> messagesShoutedBy = new HashMap<>();
     private Shouty shouty;
 
     @Override
@@ -18,7 +18,7 @@ public class DomainShoutSupport implements ShoutSupport {
         shouty.shout("Sean", message);
         List<String> messages = messagesShoutedBy.get("Sean");
         if (messages == null) {
-            messages = new ArrayList<String>();
+            messages = new ArrayList<>();
             messagesShoutedBy.put("Sean", messages);
         }
         messages.add(message);
