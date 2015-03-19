@@ -19,23 +19,19 @@ import static org.junit.Assert.assertThat;
 
 public class Stepdefs {
 
-    private final ShoutSupport domainShoutSupport;
-    private final ShoutSupport webShoutSupport;
-    private ShoutSupport shoutSupport;
+    private final ShoutSupport shoutSupport;
     private final Shouty shouty;
 
     public Stepdefs(Shouty shouty, DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
         this.shouty = shouty;
-        this.domainShoutSupport = domainShoutSupport;
-        this.webShoutSupport = webShoutSupport;
 
-        // use domain by default
-        this.shoutSupport = domainShoutSupport;
-    }
-
-    @Before("@web")
-    public void switchToWebSupport() {
-        this.shoutSupport = webShoutSupport;
+        if ("web".equals(System.getProperty("shouty.support"))) {
+            this.shoutSupport = webShoutSupport;
+            webShoutSupport.startServer();
+        }
+        else {
+            this.shoutSupport = domainShoutSupport;
+        }
     }
 
     @Given("^the range is (\\d+)$")

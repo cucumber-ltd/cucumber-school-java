@@ -1,11 +1,14 @@
 package shouty;
 
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import shouty.domain.Person;
 import shouty.domain.Shouty;
 import shouty.web.BrowserSessions;
+import shouty.web.ShoutyServer;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,10 +20,21 @@ import static org.junit.Assert.assertThat;
 public class WebShoutSupport implements ShoutSupport {
     private final Shouty shouty;
     private final BrowserSessions browserSessions;
+    private ShoutyServer server;
 
     public WebShoutSupport(Shouty shouty, BrowserSessions browserSessions) {
         this.shouty = shouty;
         this.browserSessions = browserSessions;
+    }
+
+    public void startServer() {
+        server = new ShoutyServer(shouty);
+    }
+
+    @After("@web")
+    public void stopWebServer() {
+        if (server != null)
+            server.stop();
     }
 
     @Override
