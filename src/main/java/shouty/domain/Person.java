@@ -7,12 +7,14 @@ public class Person {
     private final List<String> messagesShouted = new ArrayList<>();
     private final List<String> messagesHeard = new ArrayList<>();
     private final Network network;
-    private int location;
+    private final String name;
+    private final int location;
     private int credits;
 
-    Person(Network network, int location) {
+    Person(Network network, int location, String name) {
         this.network = network;
         this.location = location;
+        this.name = name;
         this.credits = 0;
         network.subscribe(this);
     }
@@ -46,7 +48,7 @@ public class Person {
         return messagesShouted;
     }
 
-    public void setLocation(int location) {
-        this.location = location;
+    public String getName() {
+        return name;
     }
 }

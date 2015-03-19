@@ -49,6 +49,6 @@ public class Shouty {
     }
 
     public void createPerson(String personName, int location) {
-        people.put(personName, new Person(network, location));
+        people.put(personName, new Person(network, location, personName));
     }
 }

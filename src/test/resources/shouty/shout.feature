@@ -1,3 +1,4 @@
+@web
 Feature: Shout
 
   In order to send location-sensitive messages to people nearby
@@ -15,7 +16,6 @@ Feature: Shout
       | name     | Sean | Lucy | Larry |
       | location | 0    | 100  | 150   |
 
-  @web
   Scenario: Listener is within range
     When Sean shouts "Free bagels!"
     Then Lucy hears Sean's message
@@ -28,7 +28,6 @@ Feature: Shout
     When Sean shouts "Free bagels!"
     Then Larry does not hear Sean's message
 
-  @web
   Scenario: Two shouts
     When Sean shouts "Free bagels!"
     And Sean shouts "Free toast!"
@@ -38,7 +37,7 @@ Feature: Shout
 
   Scenario: Message is too long
     When Sean shouts:
-    """
+      """
       This is a really long message
       so long in fact that I am not going to be allowed
       to send it, at least if I keep typing like this

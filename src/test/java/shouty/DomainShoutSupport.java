@@ -44,13 +44,8 @@ public class DomainShoutSupport implements ShoutSupport {
     }
 
     @Override
-    public List<String> getMessagesShoutedBy(String personName) {
-        return messagesShoutedBy.get(personName);
-    }
-
-    @Override
     public void assertNobodyHearsMessageFrom(String personName) {
-        List<String> messagesFromSean = getMessagesShoutedBy("Sean");
+        List<String> messagesFromSean = shouty.getMessagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         for (Person person : shouty.getPeople()) {
             assertThat(person.getMessagesHeard(), not(hasItems(messagesFromSeanArray)));

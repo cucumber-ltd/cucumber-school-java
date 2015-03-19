@@ -1,3 +1,4 @@
+@web
 Feature: Premium account
 
   Rules:

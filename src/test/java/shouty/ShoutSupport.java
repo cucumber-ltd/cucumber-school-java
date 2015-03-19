@@ -9,7 +9,5 @@ public interface ShoutSupport {
 
     List<String> getMessagesHeardBy(String personName);
 
-    List<String> getMessagesShoutedBy(String personName);
-
     void assertNobodyHearsMessageFrom(String personName);
 }

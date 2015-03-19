@@ -3,8 +3,7 @@
 <body>
 <form action="/messages" method=post>
     <input type=hidden name=personName value="{{personName}}">
-    <input type=text id=message name=message>
-    <input type=submit>
+    <textarea id=message name=message></textarea>
 </form>
 <ul id="messages">
     {{#messagesHeard}}

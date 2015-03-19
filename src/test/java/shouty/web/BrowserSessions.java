@@ -15,7 +15,8 @@ public class BrowserSessions {
     public WebDriver getBrowser(String personName) {
         WebDriver browser = browsers.get(personName);
         if (browser == null) {
-            browser = new HtmlUnitDriver();
+//            browser = new HtmlUnitDriver();
+            browser = new FirefoxDriver();
             browsers.put(personName, browser);
         }
         return browser;

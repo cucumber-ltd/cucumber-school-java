@@ -133,7 +133,7 @@ public class Stepdefs {
     @Then("^Larry does not hear Sean's message$")
     public void larry_does_not_hear_Sean_s_message() throws Throwable {
         List<String> heardByLarry = shoutSupport.getMessagesHeardBy("Larry");
-        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
+        List<String> messagesFromSean = shouty.getMessagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         assertThat(heardByLarry, not(hasItems(messagesFromSeanArray)));
     }

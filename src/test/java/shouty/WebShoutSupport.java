@@ -3,6 +3,7 @@ package shouty;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import shouty.domain.Person;
 import shouty.domain.Shouty;
 import shouty.web.BrowserSessions;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.hasItems;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 public class WebShoutSupport implements ShoutSupport {
@@ -32,29 +34,28 @@ public class WebShoutSupport implements ShoutSupport {
 
     @Override
     public void assertLucyHearsAllSeansMessages() {
-        WebDriver browser = browserSessions.getBrowser("Lucy");
-        browser.get("http://localhost:4567/?personName=Lucy");
-        List<WebElement> messageElements = browser.findElements(By.cssSelector("#messages li"));
-        List<String> heardByLucy = messageElements.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        List<String> messagesFromSean = shouty.getMessagesShoutedBy("Sean");
-        // Hamcrest's hasItems matcher wants an Array, not a List.
-        String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        assertThat(heardByLucy, hasItems(messagesFromSeanArray));
+        assertThat(getMessagesHeardBy("Lucy"), hasItems(messagesShoutedBy("Sean")));
     }
 
     @Override
     public List<String> getMessagesHeardBy(String personName) {
-        return shouty.getMessagesHeardBy(personName);
-    }
-
-    @Override
-    public List<String> getMessagesShoutedBy(String personName) {
-        throw new UnsupportedOperationException();
+        WebDriver browser = browserSessions.getBrowser(personName);
+        browser.get("http://localhost:4567/?personName=" + personName);
+        List<WebElement> messageElements = browser.findElements(By.cssSelector("#messages li"));
+        return messageElements.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     @Override
     public void assertNobodyHearsMessageFrom(String personName) {
-        throw new UnsupportedOperationException();
+        for (Person person : shouty.getPeople()) {
+            assertThat(getMessagesHeardBy(person.getName()), not(hasItems(messagesShoutedBy("Sean"))));
+        }
     }
+
+    // Hamcrest's hasItems matcher wants an Array, not a List.
+    private String[] messagesShoutedBy(String shouterName) {
+        List<String> messagesFromSean = shouty.getMessagesShoutedBy(shouterName);
+        return messagesFromSean.toArray(new String[messagesFromSean.size()]);
+    }
+
 }
