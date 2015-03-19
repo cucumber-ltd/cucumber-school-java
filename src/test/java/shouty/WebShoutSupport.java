@@ -33,6 +33,7 @@ public class WebShoutSupport implements ShoutSupport {
     @Override
     public void assertLucyHearsAllSeansMessages() {
         WebDriver browser = browserSessions.getBrowser("Lucy");
+        browser.get("http://localhost:4567/?personName=Lucy");
         List<WebElement> messageElements = browser.findElements(By.cssSelector("#messages li"));
         List<String> heardByLucy = messageElements.stream().map(WebElement::getText).collect(Collectors.toList());
 

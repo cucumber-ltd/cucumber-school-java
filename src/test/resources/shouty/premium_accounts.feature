@@ -1,12 +1,12 @@
 Feature: Premium account
 
   Rules:
-    - mention the word "buy" and you lose 5 credits per shout
-    - over-long messages cost 2 credits
+  - mention the word "buy" and you lose 5 credits per shout
+  - over-long messages cost 2 credits
 
   Questions:
-    - what happens if a message both has the word "buy" in it *and* is over-long?
-    - what happens when Sean runs out of credits?
+  - what happens if a message both has the word "buy" in it *and* is over-long?
+  - what happens when Sean runs out of credits?
 
   Background:
     Given the range is 100

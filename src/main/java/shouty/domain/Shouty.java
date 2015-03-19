@@ -17,23 +17,19 @@ public class Shouty {
     }
 
     public void shout(String personName, String message) {
-        findOrCreatePerson(personName).shout(message);
+        findPerson(personName).shout(message);
     }
 
     public List<String> getMessagesHeardBy(String personName) {
-        return findOrCreatePerson(personName).getMessagesHeard();
+        return findPerson(personName).getMessagesHeard();
     }
 
     public void setCredits(String personName, int credits) {
-        findOrCreatePerson(personName).setCredits(credits);
-    }
-
-    public void setPersonLocation(String personName, int location) {
-        findOrCreatePerson(personName).setLocation(location);
+        findPerson(personName).setCredits(credits);
     }
 
     public int getCredits(String personName) {
-        return findOrCreatePerson(personName).getCredits();
+        return findPerson(personName).getCredits();
     }
 
     public Collection<Person> getPeople() {
@@ -41,15 +37,18 @@ public class Shouty {
     }
 
     public List<String> getMessagesShoutedBy(String personName) {
-        return findOrCreatePerson(personName).getMessagesShouted();
+        return findPerson(personName).getMessagesShouted();
     }
 
-    private Person findOrCreatePerson(String personName) {
+    private Person findPerson(String personName) {
         Person person = people.get(personName);
         if(person == null) {
-            person = new Person(network, 0);
-            people.put(personName, person);
+            throw new RuntimeException("No such person: " + personName + ". Known people: " + people.keySet());
         }
         return person;
+    }
+
+    public void createPerson(String personName, int location) {
+        people.put(personName, new Person(network, location));
     }
 }

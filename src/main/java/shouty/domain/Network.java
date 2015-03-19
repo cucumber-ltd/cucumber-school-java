@@ -35,7 +35,7 @@ class Network {
             shouter.setCredits(shouter.getCredits() - 2);
         }
         Matcher matcher = BUY_PATTERN.matcher(message);
-        if(matcher.find()) {
+        if (matcher.find()) {
             shouter.setCredits(shouter.getCredits() - 5);
         }
     }

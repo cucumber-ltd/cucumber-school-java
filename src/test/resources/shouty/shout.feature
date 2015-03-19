@@ -38,7 +38,7 @@ Feature: Shout
 
   Scenario: Message is too long
     When Sean shouts:
-      """
+    """
       This is a really long message
       so long in fact that I am not going to be allowed
       to send it, at least if I keep typing like this

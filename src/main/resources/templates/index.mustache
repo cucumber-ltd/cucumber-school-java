@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <body>
-<form action="/messages" method=post><input type=text id=message name=message></form>
-<ul>
+<form action="/messages" method=post>
+    <input type=hidden name=personName value="{{personName}}">
+    <input type=text id=message name=message>
+</form>
+<ul id="messages">
     {{#messagesHeard}}
         <li>{{.}}</li>
     {{/messagesHeard}}

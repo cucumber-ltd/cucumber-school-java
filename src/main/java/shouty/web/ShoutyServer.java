@@ -15,6 +15,11 @@ public class ShoutyServer {
     public static void main(String[] args) {
         Shouty shouty = new Shouty();
         shouty.setRange(100);
+
+        shouty.createPerson("Sean", 0);
+        shouty.createPerson("Lucy", 100);
+        shouty.createPerson("Larry", 150);
+
         new ShoutyServer(shouty);
     }
 
@@ -23,14 +28,16 @@ public class ShoutyServer {
             String personName = req.queryParams("personName");
             Map<String, Object> map = new HashMap<>();
             map.put("messagesHeard", shouty.getMessagesHeardBy(personName));
+            map.put("personName", personName);
             return new ModelAndView(map, "index.mustache");
         }, new MustacheTemplateEngine());
 
         post("/messages", (req, res) -> {
-            String personName = req.queryParams("person");
+            String personName = req.queryParams("personName");
             String message = req.queryParams("message");
             shouty.shout(personName, message);
-            res.redirect("/");
+            String referer = req.headers("Referer");
+            res.redirect(referer);
             return null;
         });
     }
