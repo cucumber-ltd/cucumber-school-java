@@ -3,6 +3,7 @@ package shouty.web;
 import cucumber.api.java.After;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class BrowserSessions {
     public WebDriver getBrowser(String personName) {
         WebDriver browser = browsers.get(personName);
         if (browser == null) {
-            browser = new FirefoxDriver();
+            browser = new HtmlUnitDriver();
             browsers.put(personName, browser);
         }
         return browser;
