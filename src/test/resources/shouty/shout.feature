@@ -1,3 +1,4 @@
+@web
 Feature: Shout
 
   In order to send location-sensitive messages to people nearby
@@ -15,7 +16,6 @@ Feature: Shout
       | name     | Sean | Lucy | Larry |
       | location | 0    | 100  | 150   |
 
-  @web
   Scenario: Listener is within range
     When Sean shouts "Free bagels!"
     Then Lucy hears Sean's message
