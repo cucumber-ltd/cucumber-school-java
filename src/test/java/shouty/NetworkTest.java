@@ -1,5 +1,6 @@
 package shouty;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
@@ -11,6 +12,8 @@ public class NetworkTest {
     private int range = 100;
     private Network network = new Network(range);
     private String message = "Free bagels!";
+
+    // Broadcasting
 
     @Test
     public void broadcasts_a_message_to_a_listener_within_range() {
@@ -48,6 +51,31 @@ public class NetworkTest {
     }
 
     @Test
+    @Ignore
+    public void does_not_broadcast_messages_longer_than_180_chars_when_shouter_is_broke() {
+
+    }
+
+    // Charging for shouts
+
+    @Test
+    public void deducts_5_credits_when_the_shouter_mentions_the_word_buy() {
+        Person sean = mock(Person.class);
+        when(sean.getCredits()).thenReturn(100);
+        network.broadcast("here is a message containing the word buy", sean);
+        verify(sean).setCredits(95);
+    }
+
+    @Test
+    @Ignore
+    public void deducts_2_credits_when_shouters_message_is_over_180_chars() {
+
+    }
+
+    // ????
+
+    @Test
+    @Ignore
     public void does_not_broadcast_messages_longer_than_180_chars_even_within_range() {
         Person sean = mock(Person.class);
         when(sean.getLocation()).thenReturn(0);
@@ -63,4 +91,5 @@ public class NetworkTest {
 
         verify(lucy, never()).hear(longMessage);
     }
+
 }

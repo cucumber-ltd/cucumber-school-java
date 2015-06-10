@@ -1,7 +1,7 @@
 Feature: Premium account
 
   Rules:
-    - mention the word "buy" and you lose 5 credits
+    - mention the word "buy" and you lose 5 credits per shout
     - over-long messages cost 2 credits
 
   Questions:
@@ -27,7 +27,7 @@ Feature: Premium account
     And Sean should have 15 credits
 
   @todo
-  Scenario: BUG #2789
-    Given Sean has bought 30 credits
+  Scenario: Mention the word "buy" several times in the same shout
+    Given Sean has bought 100 credits
     When Sean shouts "buy, buy buy!"
-    Then Sean should have 25 credits
+    Then Sean should have 95 credits
