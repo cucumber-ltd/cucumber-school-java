@@ -1,7 +1,5 @@
 package shouty;
 
-import cucumber.api.java.Before;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

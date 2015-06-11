@@ -2,15 +2,12 @@ package shouty;
 
 import cucumber.api.DataTable;
 import cucumber.api.Transpose;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -56,7 +53,7 @@ public class Stepdefs {
 
     @When("^Sean shouts (\\d+) messages containing the word \"(.*?)\"$")
     public void sean_shouts_messages_containing_the_word(int num, String word) throws Throwable {
-        for(int j = 0; j < num; j++) {
+        for (int j = 0; j < num; j++) {
             shoutSupport.seanShout("a message containing the word " + word);
         }
     }
@@ -69,22 +66,22 @@ public class Stepdefs {
     @When("^Sean shouts a long message$")
     public void sean_shouts_a_long_message() throws Throwable {
         String longMessage = "";
-        for(int i = 0; i < 180; i++) longMessage += "x";
+        for (int i = 0; i < 180; i++) longMessage += "x";
         shoutSupport.seanShout(longMessage);
     }
 
     @When("^Sean shouts an over-long message$")
     public void sean_shouts_an_over_long_message() throws Throwable {
         String longMessage = "";
-        for(int i = 0; i < 181; i++) longMessage += "x";
+        for (int i = 0; i < 181; i++) longMessage += "x";
         shoutSupport.seanShout(longMessage);
     }
 
     @When("^Sean shouts (\\d+) over-long message$")
     public void sean_shouts_over_long_message(int num) throws Throwable {
-        for(int j = 0; j < num; j++) {
+        for (int j = 0; j < num; j++) {
             String longMessage = "";
-            for(int i = 0; i < 181; i++) longMessage += "x";
+            for (int i = 0; i < 181; i++) longMessage += "x";
             shoutSupport.seanShout(longMessage);
         }
     }

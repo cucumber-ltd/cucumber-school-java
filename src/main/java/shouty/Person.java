@@ -24,7 +24,7 @@ public class Person {
     }
 
     public void shout(String message) {
-        if(!canAfford(message)) {
+        if (!canAfford(message)) {
             return;
         }
         deductCredits(message);
@@ -46,7 +46,7 @@ public class Person {
             cost += 2;
         }
         Matcher matcher = BUY_PATTERN.matcher(message);
-        if(matcher.find()) {
+        if (matcher.find()) {
             cost += 5;
         }
         return cost;

@@ -1,6 +1,5 @@
 package shouty;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
