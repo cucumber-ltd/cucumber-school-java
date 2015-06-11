@@ -124,12 +124,12 @@ public class Stepdefs {
         expectedMessages.diff(actualMessages);
     }
 
-    @Then("^Larry does not hear Sean's message$")
-    public void larry_does_not_hear_Sean_s_message() throws Throwable {
-        List<String> heardByLarry = shoutSupport.people.get("Larry").getMessagesHeard();
+    @Then("^(Larry|Lucy) does not hear Sean's message$")
+    public void listener_does_not_hear_Sean_s_message(String listenerName) throws Throwable {
+        List<String> heardByListener = shoutSupport.people.get(listenerName).getMessagesHeard();
         List<String> messagesFromSean = shoutSupport.messagesShoutedBy.get("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        assertThat(heardByLarry, not(hasItems(messagesFromSeanArray)));
+        assertThat(heardByListener, not(hasItems(messagesFromSeanArray)));
     }
 
     @Then("^nobody hears Sean's message$")
