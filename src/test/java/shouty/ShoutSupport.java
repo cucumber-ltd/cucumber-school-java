@@ -5,18 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ShoutSupport {
-    public final Map<String, Person> people = new HashMap<String, Person>();
-    public final Map<String, List<String>> messagesShoutedBy = new HashMap<String, List<String>>();
+public abstract class ShoutSupport {
+    private final Map<String, Person> people = new HashMap<String, Person>();
+    protected final Map<String, List<String>> messagesShoutedBy = new HashMap<String, List<String>>();
 
-    public void seanShout(String message) {
-        people.get("Sean").shout(message);
-        List<String> messages = messagesShoutedBy.get("Sean");
+    public abstract void seanShout(String message);
+
+    public Map<String, Person> getPeople() {
+        return people;
+    }
+
+    public Map<String, List<String>> getMessagesShoutedBy() {
+        return messagesShoutedBy;
+    }
+
+    protected void rememberMessageShoutedBy(String message, String personName) {
+        List<String> messages = getMessagesShoutedBy().get(personName);
         if (messages == null) {
             messages = new ArrayList<String>();
-            messagesShoutedBy.put("Sean", messages);
+            getMessagesShoutedBy().put(personName, messages);
         }
         messages.add(message);
     }
-
 }

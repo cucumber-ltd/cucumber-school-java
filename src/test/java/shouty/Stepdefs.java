@@ -20,8 +20,13 @@ public class Stepdefs {
     private final ShoutSupport shoutSupport;
     private Network network;
 
-    public Stepdefs(ShoutSupport shoutSupport) {
-        this.shoutSupport = shoutSupport;
+    public Stepdefs(DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
+        if ("web".equals(System.getProperty("shouty.testDepth"))) {
+            this.shoutSupport = webShoutSupport;
+        }
+        else {
+            this.shoutSupport = domainShoutSupport;
+        }
     }
 
     @Given("^the range is (\\d+)$")
@@ -36,13 +41,13 @@ public class Stepdefs {
 
     @Given("^Sean has bought (\\d+) credits$")
     public void sean_has_bought_credits(int credits) throws Throwable {
-        shoutSupport.people.get("Sean").setCredits(credits);
+        shoutSupport.getPeople().get("Sean").setCredits(credits);
     }
 
     @Given("^the following people:$")
     public void the_following_people(@Transpose List<Whereabouts> whereabouts) throws Throwable {
         for (Whereabouts whereabout : whereabouts) {
-            shoutSupport.people.put(whereabout.name, new Person(network, whereabout.location));
+            shoutSupport.getPeople().put(whereabout.name, new Person(network, whereabout.location));
         }
     }
 
@@ -103,8 +108,8 @@ public class Stepdefs {
 
     @Then("^Lucy hears all Sean's messages$")
     public void lucy_hears_all_Sean_s_messages() throws Throwable {
-        List<String> heardByLucy = shoutSupport.people.get("Lucy").getMessagesHeard();
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy.get("Sean");
+        List<String> heardByLucy = shoutSupport.getPeople().get("Lucy").getMessagesHeard();
+        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy().get("Sean");
 
         // Hamcrest's hasItems matcher wants an Array, not a List.
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
@@ -114,7 +119,7 @@ public class Stepdefs {
     @Then("^Lucy hears the following messages:$")
     public void lucy_hears_the_following_messages(DataTable expectedMessages) throws Throwable {
         List<List<String>> actualMessages = new ArrayList<List<String>>();
-        List<String> heard = shoutSupport.people.get("Lucy").getMessagesHeard();
+        List<String> heard = shoutSupport.getPeople().get("Lucy").getMessagesHeard();
         for (String message : heard) {
             actualMessages.add(asList(message));
         }
@@ -123,23 +128,23 @@ public class Stepdefs {
 
     @Then("^(Larry|Lucy) does not hear Sean's message$")
     public void listener_does_not_hear_Sean_s_message(String listenerName) throws Throwable {
-        List<String> heardByListener = shoutSupport.people.get(listenerName).getMessagesHeard();
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy.get("Sean");
+        List<String> heardByListener = shoutSupport.getPeople().get(listenerName).getMessagesHeard();
+        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy().get("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         assertThat(heardByListener, not(hasItems(messagesFromSeanArray)));
     }
 
     @Then("^nobody hears Sean's message$")
     public void nobody_hears_Sean_s_message() throws Throwable {
-        List<String> messagesFromSean = shoutSupport.messagesShoutedBy.get("Sean");
+        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy().get("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        for (Person person : shoutSupport.people.values()) {
+        for (Person person : shoutSupport.getPeople().values()) {
             assertThat(person.getMessagesHeard(), not(hasItems(messagesFromSeanArray)));
         }
     }
 
     @Then("^Sean should have (\\d+) credits$")
     public void sean_should_have_credits(int credits) throws Throwable {
-        assertEquals(credits, shoutSupport.people.get("Sean").getCredits());
+        assertEquals(credits, shoutSupport.getPeople().get("Sean").getCredits());
     }
 }
