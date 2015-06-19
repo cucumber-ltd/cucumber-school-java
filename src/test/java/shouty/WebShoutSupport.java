@@ -1,6 +1,15 @@
 package shouty;
 
+import org.openqa.selenium.WebDriver;
+
 public class WebShoutSupport extends ShoutSupport {
+
+    private final BrowserSessions browsers;
+
+    public WebShoutSupport(BrowserSessions browsers) {
+        this.browsers = browsers;
+    }
+
     @Override
     public void seanShout(String message) {
         loginAs("Sean");
@@ -9,7 +18,8 @@ public class WebShoutSupport extends ShoutSupport {
     }
 
     private void loginAs(String personName) {
-        throw new UnsupportedOperationException();
+        WebDriver browser = browsers.getBrowserFor(personName);
+        browser.get("http://localhost:5001/?name=" + personName);
     }
 
     private void shout(String message) {
