@@ -59,7 +59,7 @@
             <arg value="--format"/>
             <arg value="html:target/cucumber-html-report"/>
             <arg value="--glue"/>
-            <arg value="shouty"/>
+            <arg value="shouty.features"/>
             <arg value="src/test/resources"/>
         </java>
 

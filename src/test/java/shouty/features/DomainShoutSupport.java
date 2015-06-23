@@ -1,4 +1,4 @@
-package shouty;
+package shouty.features;
 
 public class DomainShoutSupport extends ShoutSupport {
 

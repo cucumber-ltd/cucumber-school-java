@@ -1,4 +1,6 @@
-package shouty;
+package shouty.features;
+
+import shouty.core.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,4 +29,8 @@ public abstract class ShoutSupport {
         }
         messages.add(message);
     }
+
+    public void before() throws Exception {};
+
+    public void after() throws Exception {};
 }

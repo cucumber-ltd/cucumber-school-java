@@ -1,4 +1,4 @@
-package shouty;
+package shouty.core;
 
 import org.junit.Test;
 

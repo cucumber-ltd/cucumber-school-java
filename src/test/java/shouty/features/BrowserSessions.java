@@ -1,4 +1,4 @@
-package shouty;
+package shouty.features;
 
 import cucumber.api.java.After;
 import org.openqa.selenium.WebDriver;

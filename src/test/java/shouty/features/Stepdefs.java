@@ -1,15 +1,19 @@
-package shouty;
+package shouty.features;
 
 import cucumber.api.DataTable;
 import cucumber.api.Transpose;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import shouty.core.Network;
+import shouty.core.Person;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
@@ -23,10 +27,19 @@ public class Stepdefs {
     public Stepdefs(DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
         if ("web".equals(System.getProperty("shouty.testDepth"))) {
             this.shoutSupport = webShoutSupport;
-        }
-        else {
+        } else {
             this.shoutSupport = domainShoutSupport;
         }
+    }
+
+    @Before
+    public void before() throws Exception {
+        shoutSupport.before();
+    }
+
+    @After
+    public void after() throws Exception {
+        shoutSupport.after();
     }
 
     @Given("^the range is (\\d+)$")
@@ -111,9 +124,7 @@ public class Stepdefs {
         List<String> heardByLucy = shoutSupport.getPeople().get("Lucy").getMessagesHeard();
         List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy().get("Sean");
 
-        // Hamcrest's hasItems matcher wants an Array, not a List.
-        String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        assertThat(heardByLucy, hasItems(messagesFromSeanArray));
+        assertEquals(messagesFromSean, heardByLucy);
     }
 
     @Then("^Lucy hears the following messages:$")
@@ -121,7 +132,7 @@ public class Stepdefs {
         List<List<String>> actualMessages = new ArrayList<List<String>>();
         List<String> heard = shoutSupport.getPeople().get("Lucy").getMessagesHeard();
         for (String message : heard) {
-            actualMessages.add(asList(message));
+            actualMessages.add(singletonList(message));
         }
         expectedMessages.diff(actualMessages);
     }
