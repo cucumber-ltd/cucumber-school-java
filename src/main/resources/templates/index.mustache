@@ -6,7 +6,9 @@
     <button type=submit>Shout</button>
 </form>
 <ul>
-    <li class="message">test</li>
+    {{#messagesHeard}}
+    <li class="message">{{.}}</li>
+    {{/messagesHeard}}
 </ul>
 </body>
 </html>
