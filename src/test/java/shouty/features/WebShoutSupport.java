@@ -2,13 +2,13 @@ package shouty.features;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import shouty.web.ShoutyTestServer;
+import shouty.web.ShoutyServer;
 
 public class WebShoutSupport extends ShoutSupport {
 
     private final BrowserSessions browsers;
     private WebDriver browser;
-    private ShoutyTestServer server = new ShoutyTestServer();
+    private ShoutyServer server = new ShoutyServer();
 
     public WebShoutSupport(BrowserSessions browsers) {
         this.browsers = browsers;

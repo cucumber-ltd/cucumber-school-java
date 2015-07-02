@@ -50,6 +50,6 @@ public abstract class BaseServletTest {
     }
 
     private URI getUri(String pathAndQuery) {
-        return URI.create("http://host.com" + pathAndQuery);
+        return URI.create("http://example.org" + pathAndQuery);
     }
 }

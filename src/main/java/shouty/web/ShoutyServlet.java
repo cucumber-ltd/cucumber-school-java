@@ -44,6 +44,7 @@ public class ShoutyServlet extends HttpServlet {
 
         String message = req.getParameter("message");
         getUser(req).shout(message);
+        res.sendRedirect("/?name=Sean");
     }
 
     private Person getUser(HttpServletRequest req) throws UnsupportedEncodingException {

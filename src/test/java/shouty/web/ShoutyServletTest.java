@@ -45,8 +45,16 @@ public class ShoutyServletTest extends BaseServletTest {
         Map<String, String> params = new HashMap<>();
         params.put("message", "Test message");
         post("/shout?name=Sean", params);
-        assertEquals(200, res.getStatus());
         verify(sean).shout("Test message");
+    }
+
+    @Test
+    public void postRedirectsBackToHomePageKeepingUserLoggedIn() throws Exception {
+        Map<String, String> params = new HashMap<>();
+        params.put("message", "Test message");
+        post("/shout?name=Sean", params);
+        assertEquals(302, res.getStatus());
+        assertEquals("/?name=Sean", res.getRedirectedUrl());
     }
 
     @Override
