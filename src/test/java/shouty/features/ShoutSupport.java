@@ -13,6 +13,8 @@ public abstract class ShoutSupport {
 
     public abstract void seanShout(String message);
 
+    public abstract List<String> messagesHeardBy(String name);
+
     public Map<String, Person> getPeople() {
         return people;
     }

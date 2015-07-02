@@ -105,7 +105,7 @@ public class Stepdefs {
 
     @Then("^Lucy hears all Sean's messages$")
     public void lucy_hears_all_Sean_s_messages() throws Throwable {
-        List<String> heardByLucy = shoutSupport.getPeople().get("Lucy").getMessagesHeard();
+        List<String> heardByLucy = shoutSupport.messagesHeardBy("Lucy");
         List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
 
         assertEquals(messagesFromSean, heardByLucy);

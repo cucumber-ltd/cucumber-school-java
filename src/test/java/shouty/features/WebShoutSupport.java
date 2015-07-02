@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import shouty.web.ShoutyServer;
 
+import java.util.List;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +40,11 @@ public class WebShoutSupport extends ShoutSupport {
         loginAs("Sean");
         shout(message);
         rememberMessageShoutedBy(message, "Sean");
+    }
+
+    @Override
+    public List<String> messagesHeardBy(String name) {
+        throw new UnsupportedOperationException();
     }
 
     private void loginAs(String personName) {

@@ -1,5 +1,7 @@
 package shouty.features;
 
+import java.util.List;
+
 public class DomainShoutSupport extends ShoutSupport {
 
     @Override
@@ -9,4 +11,8 @@ public class DomainShoutSupport extends ShoutSupport {
         rememberMessageShoutedBy(message, personName);
     }
 
+    @Override
+    public List<String> messagesHeardBy(String name) {
+        return getPeople().get(name).getMessagesHeard();
+    }
 }
