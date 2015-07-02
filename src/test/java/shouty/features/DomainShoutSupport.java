@@ -12,7 +12,7 @@ public class DomainShoutSupport extends ShoutSupport {
     }
 
     @Override
-    public List<String> messagesHeardBy(String name) {
+    public List<String> getMessagesHeardBy(String name) {
         return getPeople().get(name).getMessagesHeard();
     }
 }

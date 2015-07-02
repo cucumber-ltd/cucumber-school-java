@@ -4,13 +4,14 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import shouty.web.ShoutyServer;
 
-import java.util.List;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class WebShoutSupport extends ShoutSupport {
 
@@ -43,8 +44,9 @@ public class WebShoutSupport extends ShoutSupport {
     }
 
     @Override
-    public List<String> messagesHeardBy(String name) {
-        throw new UnsupportedOperationException();
+    public List<String> getMessagesHeardBy(String name) {
+        loginAs(name);
+        return getMessages();
     }
 
     private void loginAs(String personName) {
@@ -55,6 +57,11 @@ public class WebShoutSupport extends ShoutSupport {
     private void shout(String message) {
         currentBrowser.findElement(By.name("message")).sendKeys(message);
         currentBrowser.findElement(By.cssSelector("button[type=submit]")).click();
+    }
+
+    private List<String> getMessages() {
+        List<WebElement> elements = currentBrowser.findElements(By.cssSelector(".message"));
+        return elements.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     private WebDriver getBrowserFor(String personName) {
