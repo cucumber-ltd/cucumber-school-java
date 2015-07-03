@@ -122,7 +122,7 @@ public class Stepdefs {
     @Then("^Lucy hears all Sean's messages$")
     public void lucy_hears_all_Sean_s_messages() throws Throwable {
         List<String> heardByLucy = shoutSupport.getPeople().get("Lucy").getMessagesHeard();
-        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy().get("Sean");
+        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
 
         assertEquals(messagesFromSean, heardByLucy);
     }
@@ -140,14 +140,14 @@ public class Stepdefs {
     @Then("^(Larry|Lucy) does not hear Sean's message$")
     public void listener_does_not_hear_Sean_s_message(String listenerName) throws Throwable {
         List<String> heardByListener = shoutSupport.getPeople().get(listenerName).getMessagesHeard();
-        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy().get("Sean");
+        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         assertThat(heardByListener, not(hasItems(messagesFromSeanArray)));
     }
 
     @Then("^nobody hears Sean's message$")
     public void nobody_hears_Sean_s_message() throws Throwable {
-        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy().get("Sean");
+        List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         for (Person person : shoutSupport.getPeople().values()) {
             assertThat(person.getMessagesHeard(), not(hasItems(messagesFromSeanArray)));

@@ -17,17 +17,15 @@ public abstract class ShoutSupport {
         return people;
     }
 
-    public Map<String, List<String>> getMessagesShoutedBy() {
-        return messagesShoutedBy;
+    public List<String> getMessagesShoutedBy(String name) {
+        return messagesShoutedBy.get(name);
     }
 
     protected void rememberMessageShoutedBy(String message, String personName) {
-        List<String> messages = getMessagesShoutedBy().get(personName);
-        if (messages == null) {
-            messages = new ArrayList<String>();
-            getMessagesShoutedBy().put(personName, messages);
+        if (!messagesShoutedBy.containsKey(personName)) {
+            messagesShoutedBy.put(personName, new ArrayList<String>());
         }
-        messages.add(message);
+        messagesShoutedBy.get(personName).add(message);
     }
 
     public void before() throws Exception {};
