@@ -28,7 +28,7 @@ public abstract class ShoutSupport {
         messagesShoutedBy.get(personName).add(message);
     }
 
-    public void before() throws Exception {};
+    public void beforeScenario() throws Exception {};
 
-    public void after() throws Exception {};
+    public void afterScenario() throws Exception {};
 }

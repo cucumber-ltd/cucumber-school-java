@@ -1,17 +1,29 @@
 package shouty.features;
 
+import cucumber.api.java.After;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import shouty.web.ShoutyServer;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class WebShoutSupport extends ShoutSupport {
 
-    private final BrowserSessions browsers;
-    private WebDriver browser;
+    private Map<String, WebDriver> browsers = new HashMap<>();
+    private WebDriver currentBrowser;
     private ShoutyServer server = new ShoutyServer();
 
-    public WebShoutSupport(BrowserSessions browsers) {
-        this.browsers = browsers;
+    @Override
+    public void beforeScenario() throws Exception {
+        server.start(getPeople(), 4567);
+    }
+
+    @Override
+    public void afterScenario() throws Exception {
+        server.stop();
+        closeAllBrowsers();
     }
 
     @Override
@@ -21,23 +33,27 @@ public class WebShoutSupport extends ShoutSupport {
         rememberMessageShoutedBy(message, "Sean");
     }
 
-    @Override
-    public void before() throws Exception {
-        server.start(getPeople(), 4567);
-    }
-
-    @Override
-    public void after() throws Exception {
-        server.stop();
-    }
-
     private void loginAs(String personName) {
-        browser = browsers.getBrowserFor(personName);
-        browser.get("http://localhost:4567/?name=" + personName);
+        currentBrowser = getBrowserFor(personName);
+        currentBrowser.get("http://localhost:4567/?name=" + personName);
     }
 
     private void shout(String message) {
-        browser.findElement(By.name("message")).sendKeys(message);
-        browser.findElement(By.cssSelector("button[type=submit]")).click();
+        currentBrowser.findElement(By.name("message")).sendKeys(message);
+        currentBrowser.findElement(By.cssSelector("button[type=submit]")).click();
     }
+
+    private WebDriver getBrowserFor(String personName) {
+        if (!browsers.containsKey(personName)) {
+            browsers.put(personName, new FirefoxDriver());
+        }
+        return browsers.get(personName);
+    }
+
+    private void closeAllBrowsers() {
+        for (WebDriver browser : browsers.values()) {
+            browser.close();
+        }
+    }
+
 }

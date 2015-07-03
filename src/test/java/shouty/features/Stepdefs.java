@@ -34,12 +34,12 @@ public class Stepdefs {
 
     @Before
     public void before() throws Exception {
-        shoutSupport.before();
+        shoutSupport.beforeScenario();
     }
 
     @After
     public void after() throws Exception {
-        shoutSupport.after();
+        shoutSupport.afterScenario();
     }
 
     @Given("^the range is (\\d+)$")
