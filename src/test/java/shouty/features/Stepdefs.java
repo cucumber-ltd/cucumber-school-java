@@ -26,9 +26,9 @@ public class Stepdefs {
 
     public Stepdefs(DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
         if ("web".equals(System.getProperty("shouty.testDepth"))) {
-            this.shoutSupport = webShoutSupport;
+            shoutSupport = webShoutSupport;
         } else {
-            this.shoutSupport = domainShoutSupport;
+            shoutSupport = domainShoutSupport;
         }
     }
 
