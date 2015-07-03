@@ -11,12 +11,10 @@ public class BrowserSessions {
     private Map<String, WebDriver> browsers = new HashMap<>();
 
     public WebDriver getBrowserFor(String personName) {
-        WebDriver browser = browsers.get(personName);
-        if (browser == null) {
-            browser = new FirefoxDriver();
-            browsers.put(personName, browser);
+        if (!browsers.containsKey(personName)) {
+            browsers.put(personName, new FirefoxDriver());
         }
-        return browser;
+        return browsers.get(personName);
     }
 
     @After

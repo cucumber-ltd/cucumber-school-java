@@ -31,7 +31,6 @@ public class WebShoutSupport extends ShoutSupport {
         server.stop();
     }
 
-
     private void loginAs(String personName) {
         browser = browsers.getBrowserFor(personName);
         browser.get("http://localhost:4567/?name=" + personName);
