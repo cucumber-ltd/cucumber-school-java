@@ -22,14 +22,14 @@ public class ShoutyServletTest extends BaseServletTest {
     @Test
     public void getShouldRespondWithHomepageForKnownUser() throws Exception {
         get("/?name=Sean");
-        assertEquals(200, res.getStatus());
+        assertEquals(200, lastResponse.getStatus());
     }
 
     @Test
     public void getShouldRespondWith401WhenUserNotRecognised() throws Exception {
         get("/?name=Unknown");
-        assertEquals(401, res.getStatus());
-        assertThat(res.getErrorMessage(), containsString("Unauthorized"));
+        assertEquals(401, lastResponse.getStatus());
+        assertThat(lastResponse.getErrorMessage(), containsString("Unauthorized"));
     }
 
     @Test
@@ -53,8 +53,8 @@ public class ShoutyServletTest extends BaseServletTest {
         Map<String, String> params = new HashMap<>();
         params.put("message", "Test message");
         post("/shout?name=Sean", params);
-        assertEquals(302, res.getStatus());
-        assertEquals("/?name=Sean", res.getRedirectedUrl());
+        assertEquals(302, lastResponse.getStatus());
+        assertEquals("/?name=Sean", lastResponse.getRedirectedUrl());
     }
 
     @Override

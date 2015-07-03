@@ -8,15 +8,16 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
 // Base class for conveniently testing a servlet
 public abstract class BaseServletTest {
-    protected final MockHttpServletRequest req = new MockHttpServletRequest();
-    protected final MockHttpServletResponse res = new MockHttpServletResponse();
     protected Document page;
+    protected MockHttpServletResponse lastResponse;
     private HttpServlet servlet;
 
     @Before
@@ -28,25 +29,31 @@ public abstract class BaseServletTest {
     protected abstract HttpServlet createServlet();
 
     protected void get(String pathAndQuery) throws ServletException, IOException {
-        URI uri = getUri(pathAndQuery);
-        req.setRequestURI(uri.getPath());
-        req.setQueryString(uri.getQuery());
-        req.setMethod("GET");
-        doRequest();
+        MockHttpServletRequest request = createRequest(pathAndQuery);
+        request.setMethod("GET");
+        doRequest(request);
     }
 
     protected void post(String pathAndQuery, Map<String, String> params) throws ServletException, IOException {
-        URI uri = getUri(pathAndQuery);
-        req.setRequestURI(uri.getPath());
-        req.setQueryString(uri.getQuery());
-        req.addParameters(params);
-        req.setMethod("POST");
-        doRequest();
+        MockHttpServletRequest request = createRequest(pathAndQuery);
+        request.addParameters(params);
+        request.setMethod("POST");
+        doRequest(request);
     }
 
-    private void doRequest() throws ServletException, IOException {
-        getServlet().service(req, res);
-        page = Jsoup.parse(res.getContentAsString());
+    private void doRequest(HttpServletRequest request) throws ServletException, IOException {
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        getServlet().service(request, response);
+        page = Jsoup.parse(response.getContentAsString());
+        lastResponse = response;
+    }
+
+    private MockHttpServletRequest createRequest(String pathAndQuery) {
+        URI uri = getUri(pathAndQuery);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setRequestURI(uri.getPath());
+        request.setQueryString(uri.getQuery());
+        return request;
     }
 
     private URI getUri(String pathAndQuery) {
