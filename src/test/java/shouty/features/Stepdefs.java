@@ -24,12 +24,8 @@ public class Stepdefs {
     private final ShoutSupport shoutSupport;
     private Network network;
 
-    public Stepdefs(DomainShoutSupport domainShoutSupport, WebShoutSupport webShoutSupport) {
-        if ("web".equals(System.getProperty("shouty.testDepth"))) {
-            shoutSupport = webShoutSupport;
-        } else {
-            shoutSupport = domainShoutSupport;
-        }
+    public Stepdefs(ShoutSupport shoutSupport) {
+        this.shoutSupport = shoutSupport;
     }
 
     @Before
