@@ -1,5 +1,7 @@
 package shouty.features;
 
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -14,15 +16,21 @@ public class WebShoutSupport extends ShoutSupport {
     private WebDriver currentBrowser;
     private ShoutyServer server = new ShoutyServer();
 
-    @Override
-    public void beforeScenario() throws Exception {
+    @Before
+    public void startServer() throws Exception {
         server.start(getPeople(), 4567);
     }
 
-    @Override
-    public void afterScenario() throws Exception {
+    @After
+    public void stopServer() throws Exception {
         server.stop();
-        closeAllBrowsers();
+    }
+
+    @After
+    public void closeAllBrowsers() {
+        for (WebDriver browser : browsers.values()) {
+            browser.close();
+        }
     }
 
     @Override
@@ -48,11 +56,4 @@ public class WebShoutSupport extends ShoutSupport {
         }
         return browsers.get(personName);
     }
-
-    private void closeAllBrowsers() {
-        for (WebDriver browser : browsers.values()) {
-            browser.close();
-        }
-    }
-
 }

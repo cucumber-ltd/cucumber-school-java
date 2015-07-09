@@ -2,8 +2,6 @@ package shouty.features;
 
 import cucumber.api.DataTable;
 import cucumber.api.Transpose;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -26,16 +24,6 @@ public class Stepdefs {
 
     public Stepdefs(ShoutSupport shoutSupport) {
         this.shoutSupport = shoutSupport;
-    }
-
-    @Before
-    public void before() throws Exception {
-        shoutSupport.beforeScenario();
-    }
-
-    @After
-    public void after() throws Exception {
-        shoutSupport.afterScenario();
     }
 
     @Given("^the range is (\\d+)$")
