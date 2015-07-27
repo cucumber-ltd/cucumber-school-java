@@ -27,4 +27,6 @@ public abstract class ShoutSupport {
         }
         messagesShoutedBy.get(personName).add(message);
     }
+
+    public abstract List<String> getMessagesHeardBy(String listenerName);
 }
