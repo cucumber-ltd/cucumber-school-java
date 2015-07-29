@@ -97,6 +97,24 @@
                     <compilerArgument>-Werror</compilerArgument>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>web-acceptance-tests</id>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/core/*Test.java</exclude>
+                            </excludes>
+                            <argLine>-Dshouty.testDepth=web -Dcucumber.options="--tags @high-impact,@high-risk"</argLine>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -32,6 +32,7 @@ public class ShoutyServlet extends HttpServlet {
 
         Map<String,Object> context = new HashMap<>();
         context.put("personName", getName(req));
+        context.put("messagesHeard", getUser(req).getMessagesHeard());
         indexTemplate.execute(res.getWriter(), context).flush();
     }
 

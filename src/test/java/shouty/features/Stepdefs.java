@@ -114,7 +114,7 @@ public class Stepdefs {
     @Then("^Lucy hears the following messages:$")
     public void lucy_hears_the_following_messages(DataTable expectedMessages) throws Throwable {
         List<List<String>> actualMessages = new ArrayList<List<String>>();
-        List<String> heard = shoutSupport.getPeople().get("Lucy").getMessagesHeard();
+        List<String> heard = shoutSupport.getMessagesHeardBy("Lucy");
         for (String message : heard) {
             actualMessages.add(singletonList(message));
         }
@@ -123,7 +123,7 @@ public class Stepdefs {
 
     @Then("^(Larry|Lucy) does not hear Sean's message$")
     public void listener_does_not_hear_Sean_s_message(String listenerName) throws Throwable {
-        List<String> heardByListener = shoutSupport.getPeople().get(listenerName).getMessagesHeard();
+        List<String> heardByListener = shoutSupport.getMessagesHeardBy(listenerName);
         List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
         assertThat(heardByListener, not(hasItems(messagesFromSeanArray)));
@@ -133,8 +133,8 @@ public class Stepdefs {
     public void nobody_hears_Sean_s_message() throws Throwable {
         List<String> messagesFromSean = shoutSupport.getMessagesShoutedBy("Sean");
         String[] messagesFromSeanArray = messagesFromSean.toArray(new String[messagesFromSean.size()]);
-        for (Person person : shoutSupport.getPeople().values()) {
-            assertThat(person.getMessagesHeard(), not(hasItems(messagesFromSeanArray)));
+        for (String personName : shoutSupport.getPeople().keySet()) {
+            assertThat(shoutSupport.getMessagesHeardBy(personName), not(hasItems(messagesFromSeanArray)));
         }
     }
 

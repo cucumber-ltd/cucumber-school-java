@@ -4,15 +4,20 @@ import org.junit.Before;
 import org.junit.Test;
 import shouty.core.Person;
 
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class ShoutyServletTest extends BaseServletTest {
     private final HashMap<String, Person> people = new HashMap<String, Person>(){{
@@ -37,6 +42,17 @@ public class ShoutyServletTest extends BaseServletTest {
         get("/?name=Sean");
         assertNotNull(page.select("form [name=message]"));
         assertNotNull(page.select("form [type=submit]"));
+    }
+
+    @Test
+    public void getDisplaysMessagesHeardByUser() throws ServletException, IOException {
+        List<String> messages = asList("one", "two");
+        Person lucy = mock(Person.class);
+        when(lucy.getMessagesHeard()).thenReturn(messages);
+        people.put("Lucy", lucy);
+        get("/?name=Lucy");
+        assertEquals("one", page.select(".message").get(0).text());
+        assertEquals("two", page.select(".message").get(1).text());
     }
 
     @Test

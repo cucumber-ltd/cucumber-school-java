@@ -15,7 +15,7 @@ Feature: Shout
       | name     | Sean | Lucy | Larry |
       | location | 0    | 100  | 150   |
 
-  @focus
+  @high-impact
   Scenario: Listener is within range
     When Sean shouts "Free bagels!"
     Then Lucy hears Sean's message
@@ -31,6 +31,7 @@ Feature: Shout
       | Free bagels! |
       | Free toast!  |
 
+  @high-risk
   Scenario: Message is too long
     When Sean shouts:
       """
